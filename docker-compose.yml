@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+    nginx:
+        container_name: nginx_${APPLICATION_NAME}
+        image: nginx
+        volumes:
+            - ./.docker/config/nginx/default.conf:/etc/nginx/conf.d/default.conf
+            - .:/home/wwwroot/${APPLICATION_NAME}
+        ports:
+            - ${APPLICATION_PORT}:8080
+        restart: on-failure
+        depends_on:
+            - php
+
+    php:
+        container_name: php_${APPLICATION_NAME}
+        build: .docker
+        restart: on-failure
+        volumes:
+            - ./.docker/config/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+            - .:/home/wwwroot/${APPLICATION_NAME}
+
+    composer:
+        container_name: composer_${APPLICATION_NAME}
+        image: composer/composer
+        volumes:
+            - .:/app
+        command: install
+
+    postgres:
+        image: postgres:13-alpine
+        env_file:
+            - .env
+        environment:
+            POSTGRES_DB: ${DB_NAME}
+            POSTGRES_USER: ${DB_USER}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            PGDATA: /var/lib/postgresql/data
+        ports: [5432]
