@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'form/theme.html.twig' %}
+
+{% trans_default_domain 'user' %}
+
+{% block title %}{{ 'Edit'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4 class="text-primary text-center mb-3"><strong>{{ 'Edit your account credentials'|trans }}</strong></h4>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-secondary btn-lg btn-block text-white">{{ 'Submit'|trans }}</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

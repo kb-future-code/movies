@@ -1,0 +1,69 @@
+#A
+
+#B
+Base Movies App Info: Welcome to the Movies App! Sing up and search for the movies you would like to know more about!
+
+#C
+
+#D
+
+#E
+Edit: Edit
+
+#F
+flash_msg:
+    success_account_create: Account succesfully created! You can now log in.
+    success_login: You have beed logged in succesfully!
+    success_account_edit: You have succesfully edited your account.
+
+#G
+
+#H
+
+#I
+
+#J
+
+#K
+
+#L
+Logout: Logout
+Log In: Log In
+
+#M
+Movies App: Movies App
+Movies: Movies
+My favourites: My favourites
+
+#N
+
+#O
+
+#P
+
+#Q
+
+#R
+Register: Register
+
+#S
+Search for movies: Search for movies
+Search for movies info: As a logged in user you can search for our movies database!
+Save to favourites: Save to favourites
+Save to favourites info: As a logged in user you can save your favourite movies to fast check for them later!
+Show: Show
+
+#T
+
+#U
+
+#V
+
+#W
+Welcome: Welcome
+
+#X
+
+#Y
+
+#Z

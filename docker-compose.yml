@@ -37,3 +37,14 @@ services:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             PGDATA: /var/lib/postgresql/data
         ports: [5432]
+
+    postgres_test:
+        image: postgres:13-alpine
+        env_file:
+            - .env.test
+        environment:
+            POSTGRES_DB: ${DB_NAME_TEST}
+            POSTGRES_USER: ${DB_USER_TEST}
+            POSTGRES_PASSWORD: ${DB_PASSWORD_TEST}
+            PGDATA: /var/lib/postgresql/data_test
+        ports: [5432]

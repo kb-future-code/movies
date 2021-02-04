@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'user' %}
+
+{% block title %}{{ 'Sign In'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4 class="text-primary text-center mb-3"><strong>{{ 'Log in to your account'|trans }}</strong></h4>
+                <h6 class="text-primary text-center mb-4">{{ 'Enter your email and password'|trans }}.</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <form method="post" class="mt-2 mb-4">
+                    {% if error %}
+                        <div class="alert alert-danger">{{ error.messageKey|trans }}</div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="inputEmail" class="sr-only">{{ 'Email'|trans }}</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="sr-only">{{ 'Password'|trans }}</label>
+                        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="{{ 'Password'|trans }}" required>
+                    </div>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                    <button class="btn btn-secondary btn-lg btn-block text-white" type="submit">{{ 'Sign In'|trans }}</button>
+                    <a href="{{ path('user_register') }}" class="font-weight-normal float-right">{{ 'Create a new account'|trans }}</a>
+                </form>
+                <div class="text-center">
+                    <h4>{{ 'Or sign in by'|trans }}</h4>
+                    <div class="col">
+                        <a href="{{ path('user_connect_facebook_start') }}">
+                            {{ 'Facebook'|trans }}
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="{{ path('user_connect_google_start') }}">
+                            {{ 'Google'|trans }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

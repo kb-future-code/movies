@@ -29,3 +29,11 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\EventSubscriber\TimestampsSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+
+    App\EventSubscriber\MigrationEventSubscriber:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }

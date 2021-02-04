@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'user' %}
+
+{% block title %}{{ 'Show'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+               <h4>{{ 'Your data'|trans }}</h4>
+               <p><strong>{{ 'Firstname' }}</strong>: {{ user.firstname }}</p>
+               <p><strong>{{ 'Lastname' }}</strong>: {{ user.lastname }}</p>
+               <p><strong>{{ 'Email' }}</strong>: {{ user.email }}</p>
+                <a href="{{ path('user_edit') }}"
+                   class="btn btn-outline-success my-2 my-sm-0" title="{{ 'Edit'|trans }}"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                >
+                    {{ 'Edit'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

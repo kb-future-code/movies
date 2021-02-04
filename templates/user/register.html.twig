@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form 'form/theme.html.twig' %}
+
+{% trans_default_domain 'user' %}
+
+{% block title %}{{ 'Register'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h4 class="text-primary text-center mb-3"><strong>{{ 'Create an account'|trans }}</strong></h4>
+                <h6 class="text-primary text-center mb-4">{{ 'Enter your email and password'|trans }}.</h6>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col">
+                {{ form_start(form) }}
+                {{ form_row(form.email) }}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
+                <button type="submit" class="btn btn-secondary btn-lg btn-block text-white">{{ 'Register'|trans }}</button>
+                {{ form_end(form) }}
+                <a href="{{ path('user_login') }}" class="font-weight-normal float-right">{{ 'Have an account? Log in'|trans }}</a>
+            </div>
+        </div>
+        <div class="text-center">
+            <h4>{{ 'Or sign in by'|trans }}</h4>
+            <div class="col">
+                <a href="{{ path('user_connect_facebook_start') }}">
+                    {{ 'Facebook'|trans }}
+                </a>
+            </div>
+            <div class="col">
+                <a href="{{ path('user_connect_google_start') }}">
+                    {{ 'Google'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
