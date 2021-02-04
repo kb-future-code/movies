@@ -1,23 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% form_theme form 'form/theme.html.twig' %}
-
 {% trans_default_domain 'movie' %}
 
-{% block title %}{{ 'Movies'|trans }}{% endblock %}
+{% block title %}{{ 'My favourite movies'|trans({}, 'user') }} {% endblock %}
 
 {% block main %}
     <div class="container">
-        <div class="row text-center">
-            <div class="col">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button type="submit" class="btn btn-secondary btn-lg btn-block text-white">{{ 'Search'|trans }}</button>
-                {{ form_end(form) }}
-            </div>
-        </div>
         {% if movies|length %}
             <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>{{ 'My favourite movies'|trans({}, 'user') }}</h3>
+                </div>
                 <table class="table">
                     <tr>
                         <th>{{ 'Image'|trans }}</th>
@@ -46,15 +39,9 @@
                             <td>{{ movie.Year }}</td>
                             <td>{{ movie.Type }}</td>
                             <td>
-                                {% if favouriteMovies[movie.imdbID]|default(false) %}
-                                    <a href="{{ path('user_favouriteMovie', {movieId: movie.imdbID}) }}" class="btn btn-danger btn-favourite" title="{{ 'Remove from favourite'|trans({}, 'user') }}">
-                                        {{ 'Remove from favourite'|trans({}, 'user') }}
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('user_favouriteMovie', {movieId: movie.imdbID}) }}" class="btn btn-success btn-favourite" title="{{ 'Add to favourite'|trans({}, 'user') }}">
-                                        {{ 'Add to favourite'|trans({}, 'user') }}
-                                    </a>
-                                {% endif %}
+                                <a href="{{ path('user_favouriteMovie', {movieId: movie.imdbID}) }}" class="btn btn-danger btn-favourite" title="{{ 'Remove from favourite'|trans({}, 'user') }}">
+                                    {{ 'Remove from favourite'|trans({}, 'user') }}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -63,18 +50,25 @@
             <div class="d-flex justify-content-center w-100">
                 <ul class="pagination">
                     {% if paginator.showPrevious %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: 'Previous', page: page-1, actualPage: page, routePath: 'movie_list'} %}
+                        {% include 'movie/_paginator_item.html.twig' with {label: 'Previous', page: page-1, actualPage: page, routePath: 'user_myFavouriteMovies'} %}
                     {% endif %}
                     {% if paginator.showFirst %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: 1, page: 1, actualPage: page, routePath: 'movie_list'} %}
+                        {% include 'movie/_paginator_item.html.twig' with {label: 1, page: 1, actualPage: page, routePath: 'user_myFavouriteMovies'} %}
                     {% endif %}
                     {% for i in paginator.start..paginator.end %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: i, page: i, actualPage: page, routePath: 'movie_list'} %}
+                        {% include 'movie/_paginator_item.html.twig' with {label: i, page: i, actualPage: page, routePath: 'user_myFavouriteMovies'} %}
                     {% endfor %}
                     {% if paginator.showNext %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: 'Next', page: page + 1, actualPage: page, routePath: 'movie_list'} %}
+                        {% include 'movie/_paginator_item.html.twig' with {label: 'Next', page: page + 1, actualPage: page, routePath: 'user_myFavouriteMovies'} %}
                     {% endif %}
                 </ul>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h3>{{ 'No favourite movies'|trans({}, 'user') }}</h3>
+                    <p><a class="btn btn-primary btn-lg" href="{{ path('movie_list') }}" role="button">{{ 'View movies'|trans({}, 'app') }}</a></p>
+                </div>
             </div>
         {% endif %}
     </div>

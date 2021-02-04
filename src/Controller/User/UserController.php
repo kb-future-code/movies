@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller\User;
 
+use App\Entity\User\FavouriteMovie;
 use App\Entity\User\User;
 use App\Form\User\UserRegistrationType;
 use App\Form\User\UserType;
+use App\Service\OmdbApi\MovieManager;
+use App\Service\Paginator\CustomPaginatorManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +21,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
+    const FAVOURITE_ELEMENTS_ON_SITE = 5;
+
     /**
      * @Route("/user/login", name="user_login")
      *
@@ -105,5 +112,103 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/user/favourite-movie/{movieId}", name="user_favouriteMovie")
+     *
+     * @param MovieManager $manager
+     * @param string $movieId
+     * @return RedirectResponse
+     */
+    public function favouriteMovieAction(Request $request, MovieManager $manager, string $movieId): RedirectResponse
+    {
+        $this->denyAccessUnlessGranted(User::MAIN_ROLE);
+        $result = $manager->getById($movieId);
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if (!in_array($result->code, [Response::HTTP_CREATED, Response::HTTP_OK]) or $result->body->Response === 'False') {
+            $this->addFlash('danger', 'flash_msg.danger_could_not_find_movies');
+            $movie = null;
+        } else {
+            $movie = $result->body;
+        }
+
+        if ($movie and $movie->imdbID) {
+            $favouriteMovie = $this->getDoctrine()->getRepository(FavouriteMovie::class)->findOneBy([
+                'user' => $user,
+                'imdbMovieId' => $movie->imdbID,
+            ]);
+
+            if ($favouriteMovie) {
+                $user->removeFavouriteMovie($favouriteMovie);
+                $this->getDoctrine()->getManager()->remove($favouriteMovie);
+                $this->addFlash('success', 'flash_msg.success_delete_from_favourite');
+            } else {
+                $favouriteMovie = new FavouriteMovie();
+                $favouriteMovie->setImdbMovieId($movie->imdbID);
+                $favouriteMovie->setUser($user);
+                $this->getDoctrine()->getManager()->persist($favouriteMovie);
+                $this->addFlash('success', 'flash_msg.success_add_to_favourite');
+            }
+
+            $this->getDoctrine()->getManager()->flush();
+        }
+
+        return $this->redirect($request->headers->get('referer'));
+    }
+
+    /**
+     * @Route("/user/my-favourite-movies", name="user_myFavouriteMovies")
+     *
+     * @param Request $request
+     * @param MovieManager $manager
+     * @param CustomPaginatorManager $customPaginator
+     * @return JsonResponse
+     */
+    public function myFavouriteMoviesAction(Request $request, MovieManager $manager, CustomPaginatorManager $customPaginator): Response
+    {
+        $this->denyAccessUnlessGranted(User::MAIN_ROLE);
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $movies = [];
+
+        $page = $request->query->getInt('page', 1);
+
+        // if user remove movie from favourite on last page with 1 favourite, go back to page before
+        if ($page > 1 and ($page-1)*self::FAVOURITE_ELEMENTS_ON_SITE === $user->getFavouriteMovies()->count()) {
+            $page--;
+        }
+
+        $favouriteMoviesArray = array_slice(
+            $user->getFavouriteMovies()->toArray(),
+            ($page-1)*self::FAVOURITE_ELEMENTS_ON_SITE,
+            self::FAVOURITE_ELEMENTS_ON_SITE
+        );
+
+        foreach ($favouriteMoviesArray as $i => $favouriteMovie) {
+            if ($i >= $page*self::FAVOURITE_ELEMENTS_ON_SITE) {
+                break;
+            }
+            $result = $manager->getById($favouriteMovie->getImdbMovieId());
+
+            if (!in_array($result->code, [Response::HTTP_CREATED, Response::HTTP_OK]) or $result->body->Response === 'False') {
+                $this->addFlash('danger', 'flash_msg.danger_could_not_find_movies');
+            } else {
+                $movies[] = $result->body;
+                $customPaginator->setPage($page);
+                $customPaginator->setElementsPerPage(5);
+                $customPaginator->setTotalResults((int) $user->getFavouriteMovies()->count());
+            }
+        }
+
+        return $this->render('user/favourite_movies.html.twig', [
+            'movies' => $movies,
+            'page' => $page,
+            'paginator' => $customPaginator->getPaginator(),
+        ]);
     }
 }

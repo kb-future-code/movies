@@ -28,7 +28,7 @@
                     <ul class="navbar-nav mr-auto">
                         {% if app.user %}
                             <li class="nav-item">
-                                <a class="nav-link" href="#">{{ 'My favourites'|trans({}, 'app') }}</a>
+                                <a class="nav-link" href="{{ path('user_myFavouriteMovies') }}">{{ 'My favourite movies'|trans({}, 'app') }}</a>
                             </li>
                         {% endif %}
                     </ul>

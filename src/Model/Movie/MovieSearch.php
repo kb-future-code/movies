@@ -54,4 +54,14 @@ class MovieSearch
             self::TYPE_EPISODES => self::TYPE_EPISODES,
         ];
     }
+
+    public function getApiMoviesIds(array $apiMovies)
+    {
+        $ids = [];
+        foreach ($apiMovies as $apiMovie) {
+            $ids[] = $apiMovie->imdbID;
+        }
+
+        return $ids;
+    }
 }

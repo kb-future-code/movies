@@ -20,4 +20,17 @@ class MovieControllerTest extends BaseWebTestCase
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testShow()
+    {
+        $this->client->request('GET', '/movie/show/tt9243946');
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        $user = UserFactory::new()->create();
+
+        $this->client->loginUser($user->object());
+        $this->client->request('GET', '/movie/show/tt9243946');
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
 }

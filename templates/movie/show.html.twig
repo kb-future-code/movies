@@ -16,6 +16,15 @@
                     {% else %}
                         <img class="img-thumbnail img-responsive" src="{{ asset('assets/img/default.png') }}" alt="{{ 'Default'|trans }}">
                     {% endif %}
+                    {% if favouriteMovie %}
+                        <a href="{{ path('user_favouriteMovie', {movieId: movie.imdbID}) }}" class="btn btn-danger" title="{{ 'Remove from favourite'|trans }}">
+                            {{ 'Remove from favourite'|trans }}
+                        </a>
+                    {% else %}
+                        <a href="{{ path('user_favouriteMovie', {movieId: movie.imdbID}) }}" class="btn btn-success" title="{{ 'Add to favourite'|trans }}">
+                            {{ 'Add to favourite'|trans }}
+                        </a>
+                    {% endif %}
                 </div>
                 <div class="col-md-6">
                    <h3>{{ movie.Title }}</h3>

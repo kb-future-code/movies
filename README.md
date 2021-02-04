@@ -8,11 +8,11 @@
 database variables can be invented by you for example movies_app_db.
 * Set local environment - in console: `set -a`, `source .env.local`, `source .env.test.local`
 * Build docker `docker-compose build`
-4. In console: `docker-compose up` or `docker-compose up -d`
-5. Build database: in console: 
+* In console: `docker-compose up` or `docker-compose up -d`
+* Build database: in console: 
 `docker exec -i {your_php_container_name} php /home/wwwroot/{your_application_name}/bin/console doctrine:migrations:migrate`
-6. (Optional) Build database for test environment: In console: 
+* (Optional) Build database for test environment: In console: 
 `docker exec -i {your_php_container_name} php /home/wwwroot/{your_application_name}/bin/console doctrine:migrations:migrate --env=test`
-7. Browser: `localhost:{application_port}`
-8. To run tests: `docker exec -it {your_php_container_name} /bin/bash` and then `cd {your_application_name}` and
+* Browser: `localhost:{application_port}`
+* To run tests: `docker exec -it {your_php_container_name} /bin/bash` and then `cd {your_application_name}` and
  `bin/phpunit`

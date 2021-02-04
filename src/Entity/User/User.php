@@ -4,6 +4,8 @@
 namespace App\Entity\User;
 
 use App\Entity\Traits\TimestampsTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,6 +28,12 @@ class User implements UserInterface
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private ?int $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User\FavouriteMovie", mappedBy="user", cascade={"all"})
+     * @ORM\OrderBy({"createdAt" = "ASC"})
+     */
+    private ?Collection $favouriteMovies;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -53,7 +61,7 @@ class User implements UserInterface
     private ?string $password;
 
     /**
-     * @Assert\Length(max=4096)
+     * @Assert\Length(min=8, max=4096)
      */
     private ?string $plainPassword;
 
@@ -68,6 +76,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $lastname;
+
+    public function __construct()
+    {
+        $this->favouriteMovies = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -174,5 +187,23 @@ class User implements UserInterface
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    /**
+     * @return FavouriteMovie[]|ArrayCollection|Collection|null
+     */
+    public function getFavouriteMovies(): ?Collection
+    {
+        return $this->favouriteMovies;
+    }
+
+    public function addFavouriteMovie(FavouriteMovie $favouriteMovie): void
+    {
+        $this->favouriteMovies->add($favouriteMovie);
+    }
+
+    public function removeFavouriteMovie(FavouriteMovie $favouriteMovie): bool
+    {
+        return $this->favouriteMovies->removeElement($favouriteMovie);
     }
 }

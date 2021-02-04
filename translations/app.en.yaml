@@ -1,4 +1,5 @@
 #A
+Add to favourite: Add to favourite
 
 #B
 Base Movies App Info: Welcome to the Movies App! Sing up and search for the movies you would like to know more about!
@@ -16,6 +17,8 @@ flash_msg:
     success_login: You have beed logged in succesfully!
     success_account_edit: You have succesfully edited your account.
     danger_could_not_find_movies: Could not find movies for input criteria. Please try again.
+    success_add_to_favourite: Movie succesfully added to favourite!
+    success_delete_from_favourite: Movie succesfully deleted from favourite!
 
 #G
 
@@ -34,7 +37,7 @@ Log In: Log In
 #M
 Movies App: Movies App
 Movies: Movies
-My favourites: My favourites
+My favourite movies: My favourite movies
 
 #N
 

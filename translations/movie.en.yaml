@@ -1,6 +1,8 @@
 #A
+Action: Action
 Actors: Actors
 Awards: Awards
+Add to favourite: Add to favourite
 
 #B
 BoxOffice: BoxOffice
@@ -54,6 +56,7 @@ Rated: Rated
 Released: Released
 Runtime: Runtime
 Ratings: Ratings
+Remove from favourite: Remove from favourite
 
 #S
 series: series

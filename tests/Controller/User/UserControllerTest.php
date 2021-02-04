@@ -59,4 +59,30 @@ class UserControllerTest extends BaseWebTestCase
 
         $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
     }
+
+    public function testFavouriteMovieAction()
+    {
+        $this->client->request('GET', '/user/favourite-movie/tt9243946');
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        $user = UserFactory::new()->create();
+
+        $this->client->loginUser($user->object());
+        $this->client->request('GET', '/user/favourite-movie/tt9243946');
+
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testMyFavouriteMovies()
+    {
+        $this->client->request('GET', '/user/my-favourite-movies');
+        $this->assertEquals(302, $this->client->getResponse()->getStatusCode());
+
+        $user = UserFactory::new()->create();
+
+        $this->client->loginUser($user->object());
+        $this->client->request('GET', '/user/my-favourite-movies');
+
+        $this->assertEquals(200, $this->client->getResponse()->getStatusCode());
+    }
 }
