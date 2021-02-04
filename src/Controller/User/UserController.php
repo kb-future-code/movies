@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\User;
 
 use App\Entity\User\User;
-use App\Form\UserRegistrationType;
-use App\Form\UserType;
+use App\Form\User\UserRegistrationType;
+use App\Form\User\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -72,11 +72,8 @@ class UserController extends AbstractController
 
     /**
      * @Route("/user/show", name="user_show")
-     *
-     * @param Request $request
-     * @return Response
      */
-    public function showAction(Request $request): Response
+    public function showAction(): Response
     {
         $this->denyAccessUnlessGranted(User::MAIN_ROLE);
 

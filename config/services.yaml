@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    omdb_api_key: '%env(resolve:OMDB_API_KEY)%'
+    omdb_api_url: '%env(resolve:OMDB_API_URL)%'
 
 services:
     # default configuration for services in *this* file
@@ -37,3 +39,10 @@ services:
     App\EventSubscriber\MigrationEventSubscriber:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
+
+    App\Service\OmdbApi\MovieManager:
+        arguments:
+            - "%omdb_api_url%"
+            - "%omdb_api_key%"
+
+    App\Service\Paginator\CustomPaginatorManager:

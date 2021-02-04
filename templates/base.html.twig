@@ -83,6 +83,9 @@
                         <div class="container">
                             <h1 class="display-3">{{ 'Movies App'|trans({}, 'app') }}</h1>
                             <p>{{ 'Base Movies App Info'|trans({}, 'app') }}</p>
+                            {% if is_granted(constant('App\\Entity\\User\\User::MAIN_ROLE')) %}
+                                <p><a class="btn btn-primary btn-lg" href="{{ path('movie_list') }}" role="button">{{ 'View movies'|trans }}</a></p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="container">

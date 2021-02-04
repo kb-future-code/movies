@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\User;
 
 use App\Entity\User\User;
 use Symfony\Component\Form\AbstractType;
@@ -31,9 +31,9 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => User::class,
-            'translation_domain' => 'user'
-        ));
+            'translation_domain' => 'user',
+        ]);
     }
 }

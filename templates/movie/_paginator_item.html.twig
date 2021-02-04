@@ -1,0 +1,3 @@
+<li class="page-item {% if i|default(0) == actualPage %} active {% endif %}">
+    <a class="page-link" href="{{ path('movie_list', app.request.query.all|merge({page: page})) }}">{{ label }}</a>
+</li>

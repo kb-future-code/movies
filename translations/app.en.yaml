@@ -15,6 +15,7 @@ flash_msg:
     success_account_create: Account succesfully created! You can now log in.
     success_login: You have beed logged in succesfully!
     success_account_edit: You have succesfully edited your account.
+    danger_could_not_find_movies: Could not find movies for input criteria. Please try again.
 
 #G
 
@@ -58,6 +59,7 @@ Show: Show
 #U
 
 #V
+View movies: View movies
 
 #W
 Welcome: Welcome

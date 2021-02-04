@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'movie' %}
+
+{% block title %}{{ 'Movie'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row">
+            {% if movie|default(false) %}
+                <div class="col-md-3">
+                    {% if movie.Poster != 'N/A' %}
+                        <a class="open-modal" href="{{ movie.Poster }}">
+                            <img class="img-thumbnail img-responsive" src="{{ movie.Poster }}" alt="{{ movie.Title }}">
+                        </a>
+                    {% else %}
+                        <img class="img-thumbnail img-responsive" src="{{ asset('assets/img/default.png') }}" alt="{{ 'Default'|trans }}">
+                    {% endif %}
+                </div>
+                <div class="col-md-6">
+                   <h3>{{ movie.Title }}</h3>
+                    <p>{{ movie.Year }}</p>
+                    <p>{{ movie.Plot }}</p>
+                    <strong>{{ 'Rated'|trans }}</strong>: {{ movie.Rated|default(null) }} <br>
+                    <strong>{{ 'Released'|trans }}</strong>: {{ movie.Released|default(null) }}<br>
+                    <strong>{{ 'Runtime'|trans }}</strong>: {{ movie.Runtime|default(null) }}<br>
+                    <strong>{{ 'Genre'|trans }}</strong>: {{ movie.Genre|default(null) }}<br>
+                    <strong>{{ 'Director'|trans }}</strong>: {{ movie.Director|default(null) }}<br>
+                    <strong>{{ 'Writer'|trans }}</strong>: {{ movie.Writer|default(null) }}<br>
+                    <strong>{{ 'Country'|trans }}</strong>: {{ movie.Country|default(null) }}<br>
+                    <strong>{{ 'Language'|trans }}</strong>: {{ movie.Language|default(null) }}<br>
+                    <strong>{{ 'Actors'|trans }}</strong>: {{ movie.Actors|default(null) }}<br>
+                </div>
+                <div class="col-md-3">
+                    <h4>{{ 'Ratings'|trans }}</h4>
+                    {% for rating in movie.Ratings %}
+                        <p><strong>{{ rating.Source }}</strong>: {{ rating.Value }}</p>
+                    {% endfor %}
+                    <strong>{{ 'Awards'|trans }}</strong>: {{ movie.Awards|default(null) }} <br>
+                    <strong>{{ 'Metascore'|trans }}</strong>: {{ movie.Metascore|default(null) }}<br>
+                    <strong>{{ 'imdbRating'|trans }}</strong>: {{ movie.imdbRating|default(null) }}<br>
+                    <strong>{{ 'imdbVotes'|trans }}</strong>: {{ movie.imdbVotes|default(null) }}<br>
+                    <strong>{{ 'Type'|trans }}</strong>: {{ movie.Type|default(null) }}<br>
+                    <strong>{{ 'BoxOffice'|trans }}</strong>: {{ movie.BoxOffice|default(null) }}<br>
+                    <strong>{{ 'Production'|trans }}</strong>: {{ movie.Production|default(null) }}<br>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
