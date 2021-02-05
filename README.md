@@ -6,22 +6,25 @@
 
 * Install docker and docker-compose (version 1.28.2)
 * Clone the project
-* Create (if not exist) .env.local file and copy all the variables from .env file.
-* (Optional) Create (if not exist) .env.test.local file and copy all the variables from .env.test file.
-* Fill the missing variables,database variables can be invented by you, for example `movies_app_db`.
-* Set local environment - in console: `set -a`, `source .env.local`, `source .env.test.local`
+* Create (if not exist) .env file and copy all the variables from .env.dist file.
+* Create (if not exist) .env.test file and copy all the variables from .env.test.dist file.
+* Fill the missing variables, database variables can be invented by you, for example `movies_app_db`.
+* Set environment - in console: `set -a`, `source .env`, `source .env.test`
 * Build docker `docker-compose build`
 * In console: `docker-compose up` or `docker-compose up -d`
 * Build database: in console: 
-`docker exec -i {your_php_container_name} php /home/wwwroot/{your_application_name}/bin/console doctrine:migrations:migrate`
+`docker exec -i {your_php_container_name} php /home/wwwroot/movies/bin/console doctrine:migrations:migrate`
 * (Optional) Build database for test environment: In console: 
-`docker exec -i {your_php_container_name} php /home/wwwroot/{your_application_name}/bin/console doctrine:migrations:migrate --env=test`
+`docker exec -i {your_php_container_name} php /home/wwwroot/movies/bin/console doctrine:migrations:migrate --env=test`
 * Browser: `localhost:{application_port}`
-* To run tests: `docker exec -it {your_php_container_name} /bin/bash` and then `cd {your_application_name}` and
+* To run tests: `docker exec -it {your_php_container_name} /bin/bash` and then `cd movies` and
  `bin/phpunit`
 
 ## IMPORTANT
 
+* In case of editing params in env file you need to reload source from console after you destroy containers:
+ `set -a`, `source .env`, `source .env.test` !!! In case of not reload there is an error with db authorization.
+ Also test database params must be set to make it work.
 * To make app work (searching/browsing movies) you need to provide valid OMDB_API_KEY
  to your .env file. (see links below) (if you run tests provide it to .env.test too)
 * To make registration by facebook/google work you need to provide valid OAUTH_FACEBOOK_ID, OAUTH_FACEBOOK_SECRET,
