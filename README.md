@@ -13,11 +13,11 @@
 * Build docker `docker-compose build`
 * In console: `docker-compose up` or `docker-compose up -d`
 * Build database: in console: 
-`docker exec -i {your_php_container_name} php /home/wwwroot/{your_application_name}/bin/console doctrine:migrations:migrate`
+`docker exec -i {your_php_container_name} php /home/wwwroot/movies/bin/console doctrine:migrations:migrate`
 * (Optional) Build database for test environment: In console: 
-`docker exec -i {your_php_container_name} php /home/wwwroot/{your_application_name}/bin/console doctrine:migrations:migrate --env=test`
+`docker exec -i {your_php_container_name} php /home/wwwroot/movies/bin/console doctrine:migrations:migrate --env=test`
 * Browser: `localhost:{application_port}`
-* To run tests: `docker exec -it {your_php_container_name} /bin/bash` and then `cd {your_application_name}` and
+* To run tests: `docker exec -it {your_php_container_name} /bin/bash` and then `cd movies` and
  `bin/phpunit`
 
 ## IMPORTANT
