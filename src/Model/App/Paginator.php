@@ -3,6 +3,11 @@
 
 namespace App\Model\App;
 
+/**
+ * Class Paginator helps paginate elemeents on pages.
+ *
+ * @package App\Model\App
+ */
 class Paginator
 {
     private ?int $start = null;

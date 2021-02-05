@@ -82,7 +82,7 @@ class User implements UserInterface
         $this->favouriteMovies = new ArrayCollection();
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->getFirstname() and $this->getLastname()) {
             return $this->getFirstname().' '.$this->getLastname();
@@ -205,5 +205,17 @@ class User implements UserInterface
     public function removeFavouriteMovie(FavouriteMovie $favouriteMovie): bool
     {
         return $this->favouriteMovies->removeElement($favouriteMovie);
+    }
+
+    /**
+     * Get part of the favourite movies array.
+     *
+     * @param int $page
+     * @param int $length
+     * @return array
+     */
+    public function getFavouriteMoviesSliced(int $page, int $length): array
+    {
+        return array_slice($this->getFavouriteMovies()->toArray(), ($page-1)*$length, $length);
     }
 }

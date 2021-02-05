@@ -1,0 +1,16 @@
+<div class="d-flex justify-content-center w-100">
+    <ul class="pagination">
+        {% if paginator.showPrevious %}
+            {% include 'paginator/_paginator_item.html.twig' with {label: 'Previous', page: page-1, actualPage: page, routePath: routePath} %}
+        {% endif %}
+        {% if paginator.showFirst %}
+            {% include 'paginator/_paginator_item.html.twig' with {label: 1, page: 1, actualPage: page, routePath: routePath} %}
+        {% endif %}
+        {% for i in paginator.start..paginator.end %}
+            {% include 'paginator/_paginator_item.html.twig' with {label: i, page: i, actualPage: page, routePath: routePath} %}
+        {% endfor %}
+        {% if paginator.showNext %}
+            {% include 'paginator/_paginator_item.html.twig' with {label: 'Next', page: page + 1, actualPage: page, routePath: routePath} %}
+        {% endif %}
+    </ul>
+</div>

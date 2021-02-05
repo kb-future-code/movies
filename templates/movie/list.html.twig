@@ -60,22 +60,7 @@
                     {% endfor %}
                 </table>
             </div>
-            <div class="d-flex justify-content-center w-100">
-                <ul class="pagination">
-                    {% if paginator.showPrevious %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: 'Previous', page: page-1, actualPage: page, routePath: 'movie_list'} %}
-                    {% endif %}
-                    {% if paginator.showFirst %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: 1, page: 1, actualPage: page, routePath: 'movie_list'} %}
-                    {% endif %}
-                    {% for i in paginator.start..paginator.end %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: i, page: i, actualPage: page, routePath: 'movie_list'} %}
-                    {% endfor %}
-                    {% if paginator.showNext %}
-                        {% include 'movie/_paginator_item.html.twig' with {label: 'Next', page: page + 1, actualPage: page, routePath: 'movie_list'} %}
-                    {% endif %}
-                </ul>
-            </div>
+            {% include 'paginator/_paginator.html.twig' with {page: page, routePath: 'movie_list'} %}
         {% endif %}
     </div>
 {% endblock %}

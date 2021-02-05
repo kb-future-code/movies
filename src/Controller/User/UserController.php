@@ -21,7 +21,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class UserController extends AbstractController
 {
-    const FAVOURITE_ELEMENTS_ON_SITE = 5;
+    const FAVOURITE_ELEMENTS_ON_PAGE = 5;
 
     /**
      * @Route("/user/login", name="user_login")
@@ -115,8 +115,11 @@ class UserController extends AbstractController
     }
 
     /**
+     * Add/remove favourite movie (depends if user had movie on favourite list).
+     *
      * @Route("/user/favourite-movie/{movieId}", name="user_favouriteMovie")
      *
+     * @param Request $request
      * @param MovieManager $manager
      * @param string $movieId
      * @return RedirectResponse
@@ -124,6 +127,7 @@ class UserController extends AbstractController
     public function favouriteMovieAction(Request $request, MovieManager $manager, string $movieId): RedirectResponse
     {
         $this->denyAccessUnlessGranted(User::MAIN_ROLE);
+
         $result = $manager->getById($movieId);
         /** @var User $user */
         $user = $this->getUser();
@@ -160,6 +164,8 @@ class UserController extends AbstractController
     }
 
     /**
+     * View user's favourite movies. (5 per page - for each movie need to send a request to get data)
+     *
      * @Route("/user/my-favourite-movies", name="user_myFavouriteMovies")
      *
      * @param Request $request
@@ -178,21 +184,7 @@ class UserController extends AbstractController
 
         $page = $request->query->getInt('page', 1);
 
-        // if user remove movie from favourite on last page with 1 favourite, go back to page before
-        if ($page > 1 and ($page-1)*self::FAVOURITE_ELEMENTS_ON_SITE === $user->getFavouriteMovies()->count()) {
-            $page--;
-        }
-
-        $favouriteMoviesArray = array_slice(
-            $user->getFavouriteMovies()->toArray(),
-            ($page-1)*self::FAVOURITE_ELEMENTS_ON_SITE,
-            self::FAVOURITE_ELEMENTS_ON_SITE
-        );
-
-        foreach ($favouriteMoviesArray as $i => $favouriteMovie) {
-            if ($i >= $page*self::FAVOURITE_ELEMENTS_ON_SITE) {
-                break;
-            }
+        foreach ($user->getFavouriteMoviesSliced($page, self::FAVOURITE_ELEMENTS_ON_PAGE) as $i => $favouriteMovie) {
             $result = $manager->getById($favouriteMovie->getImdbMovieId());
 
             if (!in_array($result->code, [Response::HTTP_CREATED, Response::HTTP_OK]) or $result->body->Response === 'False') {

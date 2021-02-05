@@ -5,12 +5,23 @@ namespace App\Service\Paginator;
 
 use App\Model\App\Paginator;
 
+/**
+ * CustomPaginatorManager handles preparing Paginator.
+ *
+ * Class CustomPaginatorManager
+ * @package App\Service\Paginator
+ */
 class CustomPaginatorManager
 {
     private int $elementsPerPage = 10;
     private ?int $page = null;
     private ?int $totalResults = null;
 
+    /**
+     * Preparing the paginator.
+     *
+     * @return Paginator|null
+     */
     public function getPaginator(): ?Paginator
     {
         if (!$this->page or !$this->totalResults) {

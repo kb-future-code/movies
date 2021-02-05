@@ -3,6 +3,11 @@
 
 namespace App\Model\Movie;
 
+/**
+ * Class MovieSearch helps with search form movies from api.
+ *
+ * @package App\Model\Movie
+ */
 class MovieSearch
 {
     const TYPE_MOVIE = 'movie';
@@ -55,6 +60,12 @@ class MovieSearch
         ];
     }
 
+    /**
+     * Get Ids by provided array with movies from api.
+     *
+     * @param array $apiMovies
+     * @return array
+     */
     public function getApiMoviesIds(array $apiMovies)
     {
         $ids = [];

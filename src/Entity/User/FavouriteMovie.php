@@ -35,7 +35,7 @@ class FavouriteMovie
      */
     private ?string $imdbMovieId;
 
-    public function __toString()
+    public function __toString(): string
     {
         if ($this->getUser()) {
             return (string) $this->getUser();

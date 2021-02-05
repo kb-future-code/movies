@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class MovieSearchType extends AbstractType
 {
@@ -19,9 +20,10 @@ class MovieSearchType extends AbstractType
         $builder
             ->add('title', TextType::class, [
                 'required' => true,
+                'constraints' => [new NotBlank()],
             ])
             ->add('year', ChoiceType::class, [
-                'choices' => $this->getYears(1960),
+                'choices' => $this->getYears(1900),
                 'required' => false,
                 'choice_translation_domain' => false,
             ])

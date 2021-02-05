@@ -8,6 +8,12 @@ use Doctrine\Common\DataFixtures\Purger\ORMPurger;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+/**
+ * ReloadDatabaseTrait handles reloading (truncating) database evert test.
+ *
+ * Trait ReloadDatabaseTrait
+ * @package App\Test\Traits
+ */
 trait ReloadDatabaseTrait
 {
     protected static function bootKernel(array $options = [])
@@ -19,6 +25,9 @@ trait ReloadDatabaseTrait
         return $kernel;
     }
 
+    /**
+     * Traint only works with KernelTestCases
+     */
     protected static function ensureKernelTestCase(): void
     {
         if (!is_a(static::class, KernelTestCase::class, true)) {
