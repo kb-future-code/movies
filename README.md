@@ -4,7 +4,7 @@
 
 ## Instalation
 
-* Install docker and docker-compose
+* Install docker and docker-compose (version 1.28.2)
 * Clone the project
 * Create (if not exist) .env.local file and copy all the variables from .env file.
 * (Optional) Create (if not exist) .env.test.local file and copy all the variables from .env.test file.
